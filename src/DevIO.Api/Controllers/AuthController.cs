@@ -22,7 +22,7 @@ namespace DevIO.Api.Configuration
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        public AuthController(INotificador notificador, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings) : base(notificador)
+        public AuthController(INotificador notificador, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings, IUser user) : base(notificador, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -32,6 +32,7 @@ namespace DevIO.Api.Configuration
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Register(RegisterUserViewModel registerUserViewModel)
         {
+            
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser
